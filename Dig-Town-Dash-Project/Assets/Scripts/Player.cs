@@ -8,13 +8,28 @@ public class Player : MonoBehaviour
 
     public float moveSpeed;
 
+    public PlayerAnimation playerAnimation;
+
     private Vector2 movement;
 
     void Update()
     {
         SetInput();
         Move();
+        ChangeDirection();
+        CheckMoving();
+    }
 
+    public void CheckMoving()
+    {
+        if(movement != Vector2.zero)
+        {
+            playerAnimation.playerAnimator.SetBool("Walking", true);
+        }
+        else
+        {
+            playerAnimation.playerAnimator.SetBool("Walking", false);
+        }
     }
 
     public void SetInput()
@@ -30,5 +45,11 @@ public class Player : MonoBehaviour
         movement.y = input.y * moveSpeed * Time.deltaTime;
 
         transform.position += new Vector3(movement.x, movement.y, 0);
+    }
+
+    public void ChangeDirection()
+    {
+        playerAnimation.SetWalkingDirection(movement);
+        //SetWalkingDirection();
     }
 }
